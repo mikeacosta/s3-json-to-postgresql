@@ -1,13 +1,16 @@
 # s3-json-to-postgresql
 
+See the [article on Medium](https://mikeacosta.medium.com/how-to-import-json-from-s3-to-postgresql-on-rds-b132357af39e) related to this repository.
+
 ## Background
 [AWS Lambda](https://aws.amazon.com/lambda/) function that imports JSON data to a PostgreSQL database on [RDS](https://aws.amazon.com/rds/) in response to an [Amazon S3 event notification](https://aws.amazon.com/rds/).  A typical event triggering a notification in this case would be creating (upload, copy or write) a JSON file in an S3 bucket.
 
 This function will:
 1. Create a table in PostgreSQL called `json_table` with a `data` column of data type `jsonb`.  This is obviously the field where JSON data will be inserted.
-2. Insert data into `json_table`.
-3. Create an SNS topic called `message-from-lambda` if it doesn't already exist.
-4. Publish a message to the topic whenever the function is invoked.
+2. Identify and access the JSON file from S3 associated with an event notification.
+3. Insert file data into `json_table`.
+4. Create an SNS topic called `message-from-lambda` if it doesn't already exist.
+5. Publish a message to the topic whenever the function is invoked.
 
 - <sub>Just comment or remove SNS code if you don't want a to use that service.</sub>
 
@@ -19,8 +22,12 @@ This function will:
 
 ## Set up
 1. Clone this repo
+```
+$ git clone ...
+$ cd s3-json-to-postgresql
+```
 
-2. From a command prompt, go to the root directory of this project and create and activate a [virtual environment](https://realpython.com/python-virtual-environments-a-primer/) 
+2. Create and activate a [virtual environment](https://realpython.com/python-virtual-environments-a-primer/) 
 ```
 $ python3 -m venv env
 $ . env/bin/activate
