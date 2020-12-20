@@ -1,0 +1,11 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  ImportToRDS:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Runtime: python3.6
+      Handler: lambda_function.lambda_handler
+      Code: src/lambda.zip
+      MemorySize: 128
+      Timeout: 3
+      Role: put-arn-for-your-lambda-iam-role-here
